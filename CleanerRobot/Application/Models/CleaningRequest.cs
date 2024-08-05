@@ -2,12 +2,12 @@ namespace CleanerRobot.Application.Models;
 
 public class CleaningRequest
 {
-    public CleaningRequest(Position startingPosition, List<Command> commands)
+    public CleaningRequest(Point startingPoint, List<Command> commands)
     {
-        StartingPosition = startingPosition;
+        StartingPoint = startingPoint;
         Commands = commands;
     }
     
-    public Position StartingPosition { get; }
+    public Point StartingPoint { get; }
     public List<Command> Commands { get; }
 }

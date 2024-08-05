@@ -2,6 +2,8 @@ namespace CleanerRobot.Application.Models;
 
 public enum LineDirection
 {
-    Horizontal,
-    Vertical
+    East,
+    West,
+    North,
+    South
 }

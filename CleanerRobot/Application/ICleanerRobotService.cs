@@ -5,5 +5,5 @@ namespace CleanerRobot.Application;
 
 public interface ICleanerRobotService
 {
-    CleaningResult CommandCleanOffice(CleaningRequest request);
+    CleaningResult CleanOffice(CleaningRequest request);
 }

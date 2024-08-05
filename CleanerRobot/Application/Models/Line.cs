@@ -1,39 +1,50 @@
 namespace CleanerRobot.Application.Models;
 
-public class Line
+public abstract class Line
 {
-    public Line(Position startPosition, Position endPosition, LineDirection lineDirection)
+    public Line(Point start, Point end, LineDirection direction)
     {
-        StartPosition = startPosition;
-        EndPosition = endPosition;
-        LineDirection = lineDirection;
+        Start = start;
+        End = end;
+        Direction = direction;
     }
     
-    public Position StartPosition { get; }
-    public Position EndPosition { get; }
-    public LineDirection LineDirection { get; }
+    public Point Start { get; }
+    public Point End { get; }
+    public LineDirection Direction { get; }
     
     public bool IsHorizontal()
     {
-        return LineDirection is LineDirection.Horizontal;
+        return this is EastLine or WestLine;
     }
 
     public bool IsVertical()
     {
-        return LineDirection is LineDirection.Vertical;
+        return this is NorthLine or SouthLine;
     }
 
-    public int SpacesCleanedCount()
-    {
-        if (LineDirection is LineDirection.Vertical)
-        {
-            return Math.Abs(EndPosition.Y - StartPosition.Y) + 1;
-        }
-        if (LineDirection is LineDirection.Horizontal)
-        {
-            return Math.Abs(EndPosition.X - StartPosition.X) + 1;
-        }
+    public abstract int TotalPoints();
 
-        return 0;
+    public abstract HashSet<int> GetIntersections(IReadOnlyDictionary<int, List<Line>> perpendicularLines);
+    public abstract HashSet<int> GetOverlaps(IReadOnlyDictionary<int, List<Line>> parallelLines);
+    
+    protected void AddRangeToSet(HashSet<int> set, int start, int end)
+    {
+        for (int i = start; i < end; i++)
+        {
+            set.Add(i);
+        }
+    }
+    
+    protected void AddOverlappingRange(HashSet<int> overlaps, int start, int end)
+    {
+        if (start < end)
+        {
+            AddRangeToSet(overlaps, start, end);
+        }
+        else
+        {
+            AddRangeToSet(overlaps, end, start);
+        }
     }
 }

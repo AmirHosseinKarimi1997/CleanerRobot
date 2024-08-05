@@ -1,8 +1,8 @@
 namespace CleanerRobot.Application.Models;
 
-public class Position
+public class Point
 {
-    public Position(int x, int y)
+    public Point(int x, int y)
     {
         X = x;
         Y = y;
