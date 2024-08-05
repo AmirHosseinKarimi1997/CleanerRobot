@@ -35,7 +35,7 @@ public class CleanerRobotService : ICleanerRobotService
         stopwatch.Stop();
         double duration = stopwatch.Elapsed.TotalSeconds;
 
-        var cleaningResult = new CleaningResult(DateTime.UtcNow, allUniqueSpacesCleanedCount, request.Commands.Count, duration);
+        var cleaningResult = new CleaningResult(DateTime.UtcNow, request.Commands.Count, allUniqueSpacesCleanedCount, duration);
         _dbHandler.InsertCleaningResult(cleaningResult);
         
         return cleaningResult;

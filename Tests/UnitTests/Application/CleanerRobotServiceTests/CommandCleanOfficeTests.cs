@@ -14,10 +14,10 @@ public class CommandCleanOfficeTests
     {
         var service = new CleanerRobotService(Substitute.For<IDbHandler>());
 
-        var result = service.CleanOffice(new CleaningRequest(new Point(0, 0), commands));
+        var cleaningResult = service.CleanOffice(new CleaningRequest(new Point(0, 0), commands));
 
-        result.UniquePlacesCleaned.Should().Be(expected);
-        result.CommandCount.Should().Be(commands.Count);
+        cleaningResult.Result.Should().Be(expected);
+        cleaningResult.Commands.Should().Be(commands.Count);
     }
 
     public static IEnumerable<object[]> TestIntersectionsData()
@@ -104,7 +104,7 @@ public class CommandCleanOfficeTests
     {
         var service = new CleanerRobotService(Substitute.For<IDbHandler>());
 
-        var res = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
+        var cleaningResult = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
         {
             new ("east", 10),
             new ("north", 2),
@@ -116,7 +116,7 @@ public class CommandCleanOfficeTests
             new ("south", 2),
         }));
 
-        res.UniquePlacesCleaned.Should().Be(59);
+        cleaningResult.Result.Should().Be(59);
     }
     
     [Theory]
@@ -125,10 +125,10 @@ public class CommandCleanOfficeTests
     {
         var service = new CleanerRobotService(Substitute.For<IDbHandler>());
 
-        var result = service.CleanOffice(new CleaningRequest(new Point(0, 0), commands));
+        var cleaningResult = service.CleanOffice(new CleaningRequest(new Point(0, 0), commands));
 
-        result.UniquePlacesCleaned.Should().Be(expected);
-        result.CommandCount.Should().Be(commands.Count);
+        cleaningResult.Result.Should().Be(expected);
+        cleaningResult.Commands.Should().Be(commands.Count);
     }
     
     public static IEnumerable<object[]> TestOverlapsData()

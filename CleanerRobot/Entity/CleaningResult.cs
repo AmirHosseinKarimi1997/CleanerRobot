@@ -4,17 +4,17 @@ namespace CleanerRobot.Entity;
 
 public class CleaningResult
 {
-    public CleaningResult(DateTime requestedAt, long uniquePlacesCleaned, int commandCount, double duration)
+    public CleaningResult(DateTime timestamp, int commands, long result, double duration)
     {
-        RequestedAt = requestedAt;
-        UniquePlacesCleaned = uniquePlacesCleaned;
-        CommandCount = commandCount;
+        Timestamp = timestamp;
+        Result = result;
+        Commands = commands;
         Duration = duration;
     }
     
     public int Id { get; private set; }
-    public DateTime RequestedAt { get; }
-    public long UniquePlacesCleaned { get; }
-    public int CommandCount { get; }
+    public DateTime Timestamp { get; }
+    public long Result { get; }
+    public int Commands { get; }
     public double Duration { get; }
 }
