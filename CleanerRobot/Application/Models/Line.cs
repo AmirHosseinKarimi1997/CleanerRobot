@@ -25,26 +25,6 @@ public abstract class Line
 
     public abstract int TotalPoints();
 
-    public abstract HashSet<int> GetIntersections(IReadOnlyDictionary<int, List<Line>> perpendicularLines);
-    public abstract HashSet<int> GetOverlaps(IReadOnlyDictionary<int, List<Line>> parallelLines);
-    
-    protected void AddRangeToSet(HashSet<int> set, int start, int end)
-    {
-        for (int i = start; i < end; i++)
-        {
-            set.Add(i);
-        }
-    }
-    
-    protected void AddOverlappingRange(HashSet<int> overlaps, int start, int end)
-    {
-        if (start < end)
-        {
-            AddRangeToSet(overlaps, start, end);
-        }
-        else
-        {
-            AddRangeToSet(overlaps, end, start);
-        }
-    }
+    public abstract HashSet<Point> GetIntersections(IReadOnlyDictionary<int, List<Line>> perpendicularLines);
+    public abstract HashSet<Point> GetOverlaps(IReadOnlyDictionary<int, List<Line>> parallelLines);
 }

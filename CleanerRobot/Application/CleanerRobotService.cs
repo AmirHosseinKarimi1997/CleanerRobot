@@ -20,7 +20,6 @@ public class CleanerRobotService : ICleanerRobotService
         stopwatch.Start();
 
         var cleanedPath = new CleanedPath();
-        var alreadyCleanedPoints = new HashSet<Point>();
         long allUniqueSpacesCleanedCount = 1;
         
         var current = request.StartingPoint;
@@ -71,12 +70,11 @@ public class CleanerRobotService : ICleanerRobotService
     private int GetUniqueSpacesCleanedCount(Line newlyCleanedLine, CleanedPath cleanedPath)
     {
         var perpendicularLines = newlyCleanedLine.IsHorizontal() ? cleanedPath.VerticalLines : cleanedPath.HorizontalLines;
-        var intersections = newlyCleanedLine.GetIntersections(perpendicularLines);
+        var intersectionsAndOverlaps = newlyCleanedLine.GetIntersections(perpendicularLines);
 
         var parallelLines = newlyCleanedLine.IsHorizontal() ? cleanedPath.HorizontalLines : cleanedPath.VerticalLines;
-        var overlaps = newlyCleanedLine.GetOverlaps(parallelLines);
+        intersectionsAndOverlaps.UnionWith(newlyCleanedLine.GetOverlaps(parallelLines));
         
-        var allDuplicatedCleanedPoints = intersections.Concat(overlaps).ToHashSet();
-        return newlyCleanedLine.TotalPoints() - allDuplicatedCleanedPoints.Count;
+        return newlyCleanedLine.TotalPoints() - intersectionsAndOverlaps.Count;
     }
 }

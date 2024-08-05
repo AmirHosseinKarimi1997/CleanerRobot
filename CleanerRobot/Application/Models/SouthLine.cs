@@ -8,9 +8,9 @@ public class SouthLine : Line
 
     public override int TotalPoints() => Math.Abs(Start.Y - End.Y);
 
-    public override HashSet<int> GetIntersections(IReadOnlyDictionary<int, List<Line>> perpendicularLines)
+    public override HashSet<Point> GetIntersections(IReadOnlyDictionary<int, List<Line>> perpendicularLines)
     {
-        var intersections = new HashSet<int>();
+        var intersections = new HashSet<Point>();
 
         foreach (var (yAxis, lines) in perpendicularLines)
         {
@@ -19,12 +19,12 @@ public class SouthLine : Line
             {
                 continue;
             }
-            
+
             foreach (var line in lines)
             {
                 if (IsIntersectingInXAxis(line))
                 {
-                    intersections.Add(yAxis);
+                    intersections.Add(new Point(Start.X, yAxis));
                 }
             }
         }
@@ -32,9 +32,9 @@ public class SouthLine : Line
         return intersections;
     }
 
-    public override HashSet<int> GetOverlaps(IReadOnlyDictionary<int, List<Line>> parallelLines)
+    public override HashSet<Point> GetOverlaps(IReadOnlyDictionary<int, List<Line>> parallelLines)
     {
-        var overlaps = new HashSet<int>();
+        var overlaps = new HashSet<Point>();
 
         if (!parallelLines.TryGetValue(Start.X, out var vertLines))
         {
@@ -72,7 +72,7 @@ public class SouthLine : Line
                     }
                     else if (Start.Y >= vertLine.End.Y && End.Y <= vertLine.Start.Y)
                     {
-                        AddOverlappingRange(overlaps, Start.Y, End.Y);
+                        AddOverlappingRange(overlaps, End.Y, Start.Y);
                     }
                     else if (Start.Y >= vertLine.End.Y && End.Y >= vertLine.Start.Y)
                     {
@@ -88,13 +88,24 @@ public class SouthLine : Line
 
         return overlaps;
     }
-    
+
     private bool IsOverlapping(Line parallelLine)
     {
-        return (Start.Y <= parallelLine.End.Y && End.Y >= parallelLine.Start.Y) ||
-               (parallelLine.Start.Y <= End.Y && parallelLine.End.Y >= Start.Y);
+        if (parallelLine.Direction == LineDirection.North)
+        {
+            return (Start.Y >= parallelLine.End.Y && End.Y <= parallelLine.Start.Y) ||
+                   (parallelLine.Start.Y >= End.Y && parallelLine.End.Y <= Start.Y);
+        }
+
+        if (parallelLine.Direction == LineDirection.South)
+        {
+            return (Start.Y <= parallelLine.End.Y && End.Y >= parallelLine.Start.Y) ||
+                   (parallelLine.Start.Y <= End.Y && parallelLine.End.Y >= Start.Y);
+        }
+
+        return false;
     }
-    
+
     private bool IsIntersectingInXAxis(Line perpendicularLine)
     {
         if (perpendicularLine.Direction == LineDirection.East)
@@ -108,5 +119,23 @@ public class SouthLine : Line
         }
 
         return false;
+    }
+
+    private void AddOverlappingRange(HashSet<Point> overlaps, int start, int end)
+    {
+        if (start < end)
+        {
+            for (var y = start; y < end; y++)
+            {
+                overlaps.Add(new Point(Start.X, y));
+            }
+        }
+        else
+        {
+            for (var y = start; y > end; y--)
+            {
+                overlaps.Add(new Point(Start.X, y));
+            }
+        }
     }
 }

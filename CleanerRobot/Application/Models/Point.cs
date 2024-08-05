@@ -1,6 +1,6 @@
 namespace CleanerRobot.Application.Models;
 
-public class Point
+public record Point
 {
     public Point(int x, int y)
     {

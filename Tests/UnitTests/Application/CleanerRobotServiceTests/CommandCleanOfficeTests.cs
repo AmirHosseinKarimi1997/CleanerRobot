@@ -12,9 +12,10 @@ public class CommandCleanOfficeTests
     {
         var service = new CleanerRobotService();
 
-        var res = service.CleanOffice(new CleaningRequest(new Point(0, 0), commands));
+        var result = service.CleanOffice(new CleaningRequest(new Point(0, 0), commands));
 
-        res.UniquePlacesCleaned.Should().Be(expected);
+        result.UniquePlacesCleaned.Should().Be(expected);
+        result.CommandCount.Should().Be(commands.Count);
     }
 
     public static IEnumerable<object[]> TestIntersectionsData()
@@ -82,6 +83,18 @@ public class CommandCleanOfficeTests
             },
             59
         };
+        
+        yield return new object[]
+        {
+            new List<Command>
+            {
+                new ("east", 10),
+                new ("north", 10),
+                new ("west", 10),
+                new ("south", 10),
+            },
+            40
+        };
     }
     
     [Fact]
@@ -122,5 +135,78 @@ public class CommandCleanOfficeTests
         }));
 
         res.UniquePlacesCleaned.Should().Be(41);
+    }
+    
+    [Fact]
+    public void CleanWithOverlaps2_ShouldCalculateCorrectly()
+    {
+        var service = new CleanerRobotService();
+
+        var res = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
+        {
+            new ("east", 10),
+            new ("west", 10),
+            new ("west", 10),
+            new ("east", 10),
+            new ("south", 10),
+            new ("north", 10),
+            new ("north", 10),
+            new ("south", 10),
+        }));
+
+        res.UniquePlacesCleaned.Should().Be(41);
+    }
+    
+    [Fact]
+    public void CleanWithOverlaps3_ShouldCalculateCorrectly()
+    {
+        var service = new CleanerRobotService();
+
+        var res = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
+        {
+            new ("east", 10),
+            new ("north", 10),
+            new ("east", 10),
+            new ("south", 5),
+            new ("west", 5),
+            new ("north", 5),
+            new ("east", 5),
+        }));
+
+        res.UniquePlacesCleaned.Should().Be(45);
+    }
+    
+    [Fact]
+    public void CleanWithOverlaps4_ShouldCalculateCorrectly()
+    {
+        var service = new CleanerRobotService();
+
+        var res = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
+        {
+            new ("south", 10),
+            new ("west", 10),
+            new ("east", 5),
+            new ("north", 3),
+            new ("east", 10),
+        }));
+
+        res.UniquePlacesCleaned.Should().Be(33);
+    }
+    
+    [Fact]
+    public void CleanWithOverlaps5_ShouldCalculateCorrectly()
+    {
+        var service = new CleanerRobotService();
+
+        var res = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
+        {
+            new ("south", 10),
+            new ("east", 10),
+            new ("west", 5),
+            new ("north", 3),
+            new ("west", 10),
+        }));
+
+        res.UniquePlacesCleaned.Should().Be(33);
     }
 }
