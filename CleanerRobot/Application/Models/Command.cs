@@ -1,6 +1,6 @@
 namespace CleanerRobot.Application.Models;
 
-public class Command
+public record Command
 {
     public Command(string direction, int steps)
     {

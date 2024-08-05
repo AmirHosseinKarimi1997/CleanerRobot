@@ -7,11 +7,11 @@ namespace CleanerRobot.Application;
 
 public class CleanerRobotService : ICleanerRobotService
 {
-    private readonly CleaningResultRepository _cleaningResultRepository;
+    private readonly IDbHandler _dbHandler;
 
-    public CleanerRobotService()
+    public CleanerRobotService(IDbHandler dbHandler)
     {
-        //_cleaningResultRepository = ;
+        _dbHandler = dbHandler;
     }
 
     public CleaningResult CleanOffice(CleaningRequest request)
@@ -25,8 +25,7 @@ public class CleanerRobotService : ICleanerRobotService
         var current = request.StartingPoint;
         foreach (var command in request.Commands)
         {
-            var cleaningLineStartPosition = current;
-            var cleanedLine = CleanLine(cleaningLineStartPosition, command.Direction, command.Steps);
+            var cleanedLine = CleanLine(current, command.Direction, command.Steps);
             current = cleanedLine.End;
 
             allUniqueSpacesCleanedCount += GetUniqueSpacesCleanedCount(cleanedLine, cleanedPath);
@@ -37,9 +36,8 @@ public class CleanerRobotService : ICleanerRobotService
         double duration = stopwatch.Elapsed.TotalSeconds;
 
         var cleaningResult = new CleaningResult(DateTime.UtcNow, allUniqueSpacesCleanedCount, request.Commands.Count, duration);
+        _dbHandler.InsertCleaningResult(cleaningResult);
         
-        //Save to database
-        //_cleaningResultRepository.Add(cleaningResult);
         return cleaningResult;
     }
     
