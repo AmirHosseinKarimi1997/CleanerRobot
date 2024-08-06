@@ -1,9 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace CleanerRobot.Entity;
 
 public class CleaningResult
 {
+    public CleaningResult()
+    {
+    }
     public CleaningResult(DateTime timestamp, int commands, long result, double duration)
     {
         Timestamp = timestamp;
@@ -13,8 +14,8 @@ public class CleaningResult
     }
     
     public int Id { get; private set; }
-    public DateTime Timestamp { get; }
-    public long Result { get; }
-    public int Commands { get; }
-    public double Duration { get; }
+    public DateTime Timestamp { get; private set; }
+    public long Result { get; private set; }
+    public int Commands { get; private set; }
+    public double Duration { get; private set; }
 }

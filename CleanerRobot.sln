@@ -8,7 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solutionFiles", "solutionFi
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
+		.env = .env
 		.dockerignore = .dockerignore
+		init-db.sql = init-db.sql
 	EndProjectSection
 EndProject
 Global

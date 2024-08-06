@@ -11,22 +11,26 @@
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_HOST=database
+      - HOSTNAME=${HOSTNAME}
     depends_on:
-      - database
+      - tibberdb
     networks:
       - dev
       
-  database:
+  tibberdb:
     image: postgres:latest
+    container_name: tibber-db
+    hostname: ${HOSTNAME}
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - HOSTNAME=${HOSTNAME}
     ports:
       - "5432:5432"
     volumes:
-      - ./Data/scripts/create-cleaning-results-table.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     networks:
       - dev
 networks:

@@ -10,4 +10,10 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<CleaningResult> CleaningResults { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<CleaningResult>().HasKey(cr => cr.Id);
+        modelBuilder.Entity<CleaningResult>().ToTable("cleaningresult");
+    }
 }

@@ -21,6 +21,7 @@ public class TibberDeveloperTestController : ControllerBase
     [HttpPost(Name = "enter-path")]
     public CleaningResult CleanOffice([FromBody] CleaningRequest request)
     {
+        _logger.LogInformation("Cleaning office with request: {@request}", request);
         return _cleanerRobotService.CleanOffice(request);
     }
 }

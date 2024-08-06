@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS CleaningResults (
+   Id SERIAL PRIMARY KEY,
+   Result BIGINT NOT NULL,
+   Commands INT NOT NULL,
+   Timestamp TIMESTAMP NOT NULL,
+   Duration DOUBLE PRECISION NOT NULL
+);
