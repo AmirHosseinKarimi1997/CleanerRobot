@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS CleaningResults (
       ID SERIAL PRIMARY KEY,
-      Timestamp timestamp,
       Commands integer,
       Result integer,
+      Timestamp timestamp,
       Duration double precision
 )

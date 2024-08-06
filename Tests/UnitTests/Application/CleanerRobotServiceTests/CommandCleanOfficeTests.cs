@@ -119,6 +119,20 @@ public class CommandCleanOfficeTests
         cleaningResult.Result.Should().Be(59);
     }
     
+    [Fact]
+    public void CleanWithGivenSampleInTask_ShouldCalculateCorrectly()
+    {
+        var service = new CleanerRobotService(Substitute.For<IDbHandler>());
+
+        var cleaningResult = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
+        {
+            new ("east", 2),
+            new ("north", 1),
+        }));
+
+        cleaningResult.Result.Should().Be(4);
+    }
+    
     [Theory]
     [MemberData(nameof(TestOverlapsData))]
     public void CleanWithOverlaps_ShouldCalculateCorrectly(List<Command> commands, int expected)
