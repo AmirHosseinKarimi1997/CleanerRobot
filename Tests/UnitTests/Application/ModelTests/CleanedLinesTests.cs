@@ -3,13 +3,13 @@ using FluentAssertions;
 
 namespace Tests.UnitTests.Application.ModelTests;
 
-public class CleanedPathTests
+public class CleanedLinesTests
 {
     [Fact]
     public void AddHorizontalLineToPath()
     {
         // Arrange
-        var path = new CleanedPath();
+        var path = new CleanedLines();
         
         const int y0 = 0;
         const int y5 = 5;
@@ -31,7 +31,7 @@ public class CleanedPathTests
     [Fact]
     public void AddVerticalLineToPath()
     {
-        var path = new CleanedPath();
+        var path = new CleanedLines();
         
         const int x0 = 0;
         const int x5 = 5;
@@ -53,7 +53,7 @@ public class CleanedPathTests
     [Fact]
     public void AddWithSameYAxis()
     {
-        var path = new CleanedPath();
+        var path = new CleanedLines();
         
         const int y0 = 0;
         
@@ -72,7 +72,7 @@ public class CleanedPathTests
     [Fact]
     public void AddWithSameXAxis()
     {
-        var path = new CleanedPath();
+        var path = new CleanedLines();
         
         const int x0 = 0;
         

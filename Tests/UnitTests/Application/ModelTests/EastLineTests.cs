@@ -38,14 +38,14 @@ public class EastLineTests
         // Arrange
         var northLine = new NorthLine(new(5, -5), new(5, 10));
         var southLine = new SouthLine(new(7, 3), new(7, -4));
-        var cleanedPath = new CleanedPath();
-        cleanedPath.Add(northLine);
-        cleanedPath.Add(southLine);
+        var cleanedLines = new CleanedLines();
+        cleanedLines.Add(northLine);
+        cleanedLines.Add(southLine);
         
         var eastLine = new EastLine(new(0, 0), new(10, 0));
         
         // Act
-        var intersections = eastLine.GetIntersections(cleanedPath.VerticalLines);
+        var intersections = eastLine.GetIntersections(cleanedLines.VerticalLines);
         
         // Assert
         intersections.Count.Should().Be(2);
@@ -63,14 +63,14 @@ public class EastLineTests
         // Arrange
         var eastLine = new EastLine(new(2, 1), new(7, 1));
         var westLine = new WestLine(new(-2, 1), new(-7, 1));
-        var cleanedPath = new CleanedPath();
-        cleanedPath.Add(eastLine);
-        cleanedPath.Add(westLine);
+        var cleanedLines = new CleanedLines();
+        cleanedLines.Add(eastLine);
+        cleanedLines.Add(westLine);
         
         var line = new EastLine(new(-5, 1), new(5, 1));
         
         // Act
-        var overlap = line.GetOverlaps(cleanedPath.HorizontalLines);
+        var overlap = line.GetOverlaps(cleanedLines.HorizontalLines);
         
         // Assert
         overlap.Count.Should().Be(6);

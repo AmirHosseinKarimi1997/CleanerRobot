@@ -1,6 +1,6 @@
 namespace CleanerRobot.Application.Models;
 
-public class CleanedPath
+public class CleanedLines
 {
     private readonly Dictionary<int, List<Line>> _horizontalLines = new(); //key is y-axis
     private readonly Dictionary<int, List<Line>> _verticalLines = new(); //key is x-axis

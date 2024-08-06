@@ -38,14 +38,14 @@ public class SouthLineTests
         // Arrange
         var eastLine = new EastLine(new(-5, 2), new(5, 2));
         var westLine = new WestLine(new(7, 9), new(-2, 9));
-        var cleanedPath = new CleanedPath();
-        cleanedPath.Add(eastLine);
-        cleanedPath.Add(westLine);
+        var cleanedLines = new CleanedLines();
+        cleanedLines.Add(eastLine);
+        cleanedLines.Add(westLine);
         
         var southLine = new SouthLine(new(1, 10), new(1, -10));
         
         // Act
-        var intersections = southLine.GetIntersections(cleanedPath.HorizontalLines);
+        var intersections = southLine.GetIntersections(cleanedLines.HorizontalLines);
         
         // Assert
         intersections.Count.Should().Be(2);
@@ -59,14 +59,14 @@ public class SouthLineTests
         // Arrange
         var northLine = new NorthLine(new(0, -7), new(0, -2));
         var southLine = new SouthLine(new(0, 7), new(0, 2));
-        var cleanedPath = new CleanedPath();
-        cleanedPath.Add(northLine);
-        cleanedPath.Add(southLine);
+        var cleanedLines = new CleanedLines();
+        cleanedLines.Add(northLine);
+        cleanedLines.Add(southLine);
         
         var line = new SouthLine(new(0, 5), new(0, -5));
         
         // Act
-        var overlaps = line.GetOverlaps(cleanedPath.VerticalLines);
+        var overlaps = line.GetOverlaps(cleanedLines.VerticalLines);
         
         // Assert
         overlaps.Count.Should().Be(6);

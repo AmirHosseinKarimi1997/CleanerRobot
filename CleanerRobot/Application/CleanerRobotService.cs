@@ -19,7 +19,7 @@ public class CleanerRobotService : ICleanerRobotService
         var stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        var cleanedPath = new CleanedPath();
+        var cleanedLines = new CleanedLines();
         long allUniqueSpacesCleanedCount = 1;
         
         var current = request.StartingPoint;
@@ -28,8 +28,8 @@ public class CleanerRobotService : ICleanerRobotService
             var cleanedLine = CleanLine(current, command.Direction, command.Steps);
             current = cleanedLine.End;
 
-            allUniqueSpacesCleanedCount += GetUniqueSpacesCleanedCount(cleanedLine, cleanedPath);
-            cleanedPath.Add(cleanedLine);
+            allUniqueSpacesCleanedCount += GetUniqueSpacesCleanedCount(cleanedLine, cleanedLines);
+            cleanedLines.Add(cleanedLine);
         }
 
         stopwatch.Stop();
@@ -65,12 +65,12 @@ public class CleanerRobotService : ICleanerRobotService
         }
     }
 
-    private static int GetUniqueSpacesCleanedCount(Line newlyCleanedLine, CleanedPath cleanedPath)
+    private static int GetUniqueSpacesCleanedCount(Line newlyCleanedLine, CleanedLines cleanedLines)
     {
-        var perpendicularLines = newlyCleanedLine.IsHorizontal() ? cleanedPath.VerticalLines : cleanedPath.HorizontalLines;
+        var perpendicularLines = newlyCleanedLine.IsHorizontal() ? cleanedLines.VerticalLines : cleanedLines.HorizontalLines;
         var moreThanOnceCleanedPoints = newlyCleanedLine.GetIntersections(perpendicularLines);
 
-        var parallelLines = newlyCleanedLine.IsHorizontal() ? cleanedPath.HorizontalLines : cleanedPath.VerticalLines;
+        var parallelLines = newlyCleanedLine.IsHorizontal() ? cleanedLines.HorizontalLines : cleanedLines.VerticalLines;
         moreThanOnceCleanedPoints.UnionWith(newlyCleanedLine.GetOverlaps(parallelLines));
         
         return newlyCleanedLine.TotalPoints() - moreThanOnceCleanedPoints.Count;
