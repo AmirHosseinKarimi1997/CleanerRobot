@@ -33,7 +33,7 @@ public class CleanerRobotService : ICleanerRobotService
         }
 
         stopwatch.Stop();
-        double duration = stopwatch.Elapsed.TotalSeconds;
+        var duration = stopwatch.Elapsed.TotalSeconds;
 
         var cleaningResult = new CleaningResult(DateTime.UtcNow, request.Commands.Count, allUniqueSpacesCleanedCount, duration);
         _cleaningResultRepository.Add(cleaningResult);
@@ -65,14 +65,14 @@ public class CleanerRobotService : ICleanerRobotService
         }
     }
 
-    private int GetUniqueSpacesCleanedCount(Line newlyCleanedLine, CleanedPath cleanedPath)
+    private static int GetUniqueSpacesCleanedCount(Line newlyCleanedLine, CleanedPath cleanedPath)
     {
         var perpendicularLines = newlyCleanedLine.IsHorizontal() ? cleanedPath.VerticalLines : cleanedPath.HorizontalLines;
-        var intersectionsAndOverlaps = newlyCleanedLine.GetIntersections(perpendicularLines);
+        var moreThanOnceCleanedPoints = newlyCleanedLine.GetIntersections(perpendicularLines);
 
         var parallelLines = newlyCleanedLine.IsHorizontal() ? cleanedPath.HorizontalLines : cleanedPath.VerticalLines;
-        intersectionsAndOverlaps.UnionWith(newlyCleanedLine.GetOverlaps(parallelLines));
+        moreThanOnceCleanedPoints.UnionWith(newlyCleanedLine.GetOverlaps(parallelLines));
         
-        return newlyCleanedLine.TotalPoints() - intersectionsAndOverlaps.Count;
+        return newlyCleanedLine.TotalPoints() - moreThanOnceCleanedPoints.Count;
     }
 }
