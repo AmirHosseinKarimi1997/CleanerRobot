@@ -11,8 +11,12 @@ builder.Services.AddScoped<ICleaningResultRepository, CleaningResultRepository>(
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var connectionString = $@"Host=tibberdb;Username={Environment.GetEnvironmentVariable("POSTGRES_USER")};
+                       Password={Environment.GetEnvironmentVariable("POSTGRES_PASSWORD")};
+                       Database={Environment.GetEnvironmentVariable("POSTGRES_DB")}";
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
 var app = builder.Build();
 

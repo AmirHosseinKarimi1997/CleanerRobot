@@ -6,12 +6,11 @@
       context: .
       dockerfile: /Dockerfile
     ports:
-      - "5000:8080"
+      - 5000:8080
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-      - HOSTNAME=${HOSTNAME}
     depends_on:
       - tibberdb
     networks:
@@ -20,14 +19,12 @@
   tibberdb:
     image: postgres:latest
     container_name: tibber-db
-    hostname: ${HOSTNAME}
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-      - HOSTNAME=${HOSTNAME}
     ports:
-      - "5432:5432"
+      - 5432:5432
     volumes:
       - ./data:/var/lib/postgresql/data
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
