@@ -2,16 +2,16 @@ using CleanerRobot.Entity;
 
 namespace CleanerRobot.Data;
 
-public class PostgresDbHandler : IDbHandler
+public class CleaningResultRepository : ICleaningResultRepository
 {
     private readonly AppDbContext _dbContext;
 
-    public PostgresDbHandler(AppDbContext dbContext)
+    public CleaningResultRepository(AppDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public void InsertCleaningResult(CleaningResult cleaningResult)
+    public void Add(CleaningResult cleaningResult)
     {
         _dbContext.CleaningResults.Add(cleaningResult);
         _dbContext.SaveChanges();

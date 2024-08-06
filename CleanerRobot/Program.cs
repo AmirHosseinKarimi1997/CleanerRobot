@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<ICleanerRobotService, CleanerRobotService>();
-builder.Services.AddScoped<IDbHandler, PostgresDbHandler>();
+builder.Services.AddScoped<ICleaningResultRepository, CleaningResultRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

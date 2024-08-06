@@ -12,7 +12,7 @@ public class CommandCleanOfficeTests
     [MemberData(nameof(TestIntersectionsData))]
     public void CleanWithIntersections_ShouldCalculateCorrectly(List<Command> commands, int expected)
     {
-        var service = new CleanerRobotService(Substitute.For<IDbHandler>());
+        var service = new CleanerRobotService(Substitute.For<ICleaningResultRepository>());
 
         var cleaningResult = service.CleanOffice(new CleaningRequest(new Point(0, 0), commands));
 
@@ -102,7 +102,7 @@ public class CommandCleanOfficeTests
     [Fact]
     public void CleanWithNoIntersections_ShouldCalculateCorrectly()
     {
-        var service = new CleanerRobotService(Substitute.For<IDbHandler>());
+        var service = new CleanerRobotService(Substitute.For<ICleaningResultRepository>());
 
         var cleaningResult = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
         {
@@ -122,7 +122,7 @@ public class CommandCleanOfficeTests
     [Fact]
     public void CleanWithGivenSampleInTask_ShouldCalculateCorrectly()
     {
-        var service = new CleanerRobotService(Substitute.For<IDbHandler>());
+        var service = new CleanerRobotService(Substitute.For<ICleaningResultRepository>());
 
         var cleaningResult = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
         {
@@ -137,7 +137,7 @@ public class CommandCleanOfficeTests
     [MemberData(nameof(TestOverlapsData))]
     public void CleanWithOverlaps_ShouldCalculateCorrectly(List<Command> commands, int expected)
     {
-        var service = new CleanerRobotService(Substitute.For<IDbHandler>());
+        var service = new CleanerRobotService(Substitute.For<ICleaningResultRepository>());
 
         var cleaningResult = service.CleanOffice(new CleaningRequest(new Point(0, 0), commands));
 
@@ -224,7 +224,7 @@ public class CommandCleanOfficeTests
     [Fact]
     public void CleanWithoutOverlaps_ShouldCalculateCorrectly()
     {
-        var service = new CleanerRobotService(Substitute.For<IDbHandler>());
+        var service = new CleanerRobotService(Substitute.For<ICleaningResultRepository>());
 
         var cleaningResult = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
         {
