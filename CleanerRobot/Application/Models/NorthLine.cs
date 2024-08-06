@@ -4,6 +4,10 @@ public class NorthLine : Line
 {
     public NorthLine(Point start, Point end) : base(start, end, LineDirection.North)
     {
+        if (start.X != end.X || start.Y >= end.Y)
+        {
+            throw new ArgumentException("North line is not valid");
+        }
     }
 
     public override int TotalPoints() => Math.Abs(End.Y - Start.Y);
@@ -51,9 +55,9 @@ public class NorthLine : Line
                     {
                         AddOverlappingRange(overlaps, End.Y, Start.Y);
                     }
-                    else if (Start.Y >= vertLine.Start.Y && End.Y <= vertLine.End.Y)
+                    else if (Start.Y >= vertLine.Start.Y && Start.Y <= vertLine.End.Y)
                     {
-                        AddOverlappingRange(overlaps, vertLine.End.Y, vertLine.Start.Y);
+                        AddOverlappingRange(overlaps, Start.Y, vertLine.End.Y);
                     }
                     else if (Start.Y >= vertLine.Start.Y && End.Y <= vertLine.Start.Y &&
                              End.Y >= vertLine.End.Y)
@@ -78,9 +82,9 @@ public class NorthLine : Line
                     {
                         AddOverlappingRange(overlaps, vertLine.Start.Y, Start.Y);
                     }
-                    else if (Start.Y <= vertLine.End.Y && End.Y >= vertLine.Start.Y)
+                    else if (Start.Y <= vertLine.End.Y && End.Y >= vertLine.End.Y)
                     {
-                        AddOverlappingRange(overlaps, End.Y, Start.Y);
+                        AddOverlappingRange(overlaps, End.Y, vertLine.End.Y);
                     }
                     else if (Start.Y >= vertLine.End.Y && End.Y <= vertLine.Start.Y)
                     {
@@ -104,7 +108,7 @@ public class NorthLine : Line
         if(parallelLine.Direction == LineDirection.South)
         {
             return (Start.Y >= parallelLine.End.Y && End.Y <= parallelLine.Start.Y) ||
-                   (parallelLine.Start.Y >= End.Y && parallelLine.End.Y <= Start.Y);
+                   (parallelLine.Start.Y >= End.Y && parallelLine.End.Y <= End.Y);
         }
 
         return false;

@@ -4,6 +4,10 @@ public class SouthLine : Line
 {
     public SouthLine(Point start, Point end) : base(start, end, LineDirection.South)
     {
+        if (start.X != end.X || start.Y <= end.Y)
+        {
+            throw new ArgumentException("South line is not valid");
+        }
     }
 
     public override int TotalPoints() => Math.Abs(Start.Y - End.Y);
@@ -51,9 +55,9 @@ public class SouthLine : Line
                     {
                         AddOverlappingRange(overlaps, Start.Y, End.Y);
                     }
-                    else if (Start.Y <= vertLine.Start.Y && End.Y >= vertLine.End.Y)
+                    else if (Start.Y <= vertLine.Start.Y && Start.Y >= vertLine.End.Y)
                     {
-                        AddOverlappingRange(overlaps, vertLine.Start.Y, vertLine.End.Y);
+                        AddOverlappingRange(overlaps, Start.Y, vertLine.End.Y);
                     }
                     else if (Start.Y <= vertLine.Start.Y && End.Y >= vertLine.Start.Y)
                     {
@@ -76,7 +80,7 @@ public class SouthLine : Line
                     }
                     else if (Start.Y >= vertLine.End.Y && End.Y >= vertLine.Start.Y)
                     {
-                        AddOverlappingRange(overlaps, Start.Y, vertLine.Start.Y);
+                        AddOverlappingRange(overlaps, End.Y, vertLine.End.Y);
                     }
                     else if (Start.Y <= vertLine.Start.Y && End.Y >= vertLine.Start.Y)
                     {
@@ -93,13 +97,13 @@ public class SouthLine : Line
     {
         if (parallelLine.Direction == LineDirection.North)
         {
-            return (Start.Y >= parallelLine.End.Y && End.Y <= parallelLine.Start.Y) ||
+            return (Start.Y >= parallelLine.End.Y && End.Y <= parallelLine.End.Y) ||
                    (parallelLine.Start.Y >= End.Y && parallelLine.End.Y <= Start.Y);
         }
 
         if (parallelLine.Direction == LineDirection.South)
         {
-            return (Start.Y <= parallelLine.End.Y && End.Y >= parallelLine.Start.Y) ||
+            return (Start.Y <= parallelLine.Start.Y && Start.Y >= parallelLine.End.Y) ||
                    (parallelLine.Start.Y <= End.Y && parallelLine.End.Y >= Start.Y);
         }
 

@@ -4,6 +4,10 @@ public class EastLine : Line
 {
     public EastLine(Point start, Point end) : base(start, end, LineDirection.East)
     {
+        if(start.Y != end.Y || start.X >= end.X)
+        {
+            throw new ArgumentException("East line is not valid");
+        }
     }
 
     public override int TotalPoints() => Math.Abs(End.X - Start.X);
@@ -99,7 +103,7 @@ public class EastLine : Line
 
         if (parallelLine.Direction == LineDirection.West)
         {
-            return (Start.X >= parallelLine.End.X && End.X <= parallelLine.Start.X) ||
+            return (Start.X >= parallelLine.End.X && Start.X <= parallelLine.Start.X) ||
                    (parallelLine.Start.X >= End.X && parallelLine.End.X <= Start.X);
         }
 

@@ -220,4 +220,21 @@ public class CommandCleanOfficeTests
             33
         };
     }
+    
+    [Fact]
+    public void CleanWithoutOverlaps_ShouldCalculateCorrectly()
+    {
+        var service = new CleanerRobotService(Substitute.For<IDbHandler>());
+
+        var cleaningResult = service.CleanOffice(new CleaningRequest(new Point(0, 0), new List<Command>
+        {
+            new ("east", 10),
+            new ("north", 2),
+            new ("west", 10),
+            new ("north", 2),
+            new ("east", 10),
+        }));
+
+        cleaningResult.Result.Should().Be(35);
+    }
 }

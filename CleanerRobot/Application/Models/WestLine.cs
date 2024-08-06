@@ -4,6 +4,10 @@ public class WestLine : Line
 {
     public WestLine(Point start, Point end) : base(start, end, LineDirection.West)
     {
+        if(start.Y != end.Y || start.X <= end.X)
+        {
+            throw new ArgumentException("West line is not valid");
+        }
     }
 
     public override int TotalPoints() => Math.Abs(Start.X - End.X);
@@ -109,7 +113,7 @@ public class WestLine : Line
     {
         if (parallelLine.Direction == LineDirection.West)
         {
-            return (Start.X <= parallelLine.Start.X && End.X >= parallelLine.End.X) ||
+            return (End.X >= parallelLine.End.X && End.X <= parallelLine.Start.X) ||
                    (parallelLine.Start.X <= End.X && parallelLine.End.X >= Start.X);
         }
 
